@@ -12,8 +12,7 @@ setwd(paste("C:/Users/",
             usuario,
             "/dimac/datasets", sep = ""))
 
-
-# Vetor de anos considerados
+# Vetor de periodo considerados
 years <- 2002:2012
 
 # Iterando sobre o vetor de anos
@@ -37,7 +36,6 @@ for (year in years) {
   # Atribui o data frame a uma variável separada com base no ano
   assign(paste0("rec_munic_", year), rec_munic)
 }
-
 
 ## Harmonizacao dos dados anuais
 
@@ -79,7 +77,6 @@ names(rec_munic_2002)[25] <- "rec_emprestimos"
 names(rec_munic_2002)[26] <- "AMORT"
 names(rec_munic_2002)[27] <- "transf_cap"
 names(rec_munic_2002)[28] <- "rec_deduc"
-
 
 rec_munic_2002 <- mutate(rec_munic_2002, rec_prim = rec_total - rec_emprestimos - AMORT - VAL_MOB,
                          IPTU_total = IPTU_PRINC + (multas_e_juros_mora+rec_div_ativa) * (IPTU_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
@@ -153,7 +150,6 @@ rec_munic_2003$test1 <- round(rec_munic_2003$test1, digits=4)
 rec_munic_2003$ano <- 2003
 
 
-
 #--  2004 ---
 rec_munic_2004[7:8] <- NULL
 rec_munic_2004[8] <- NULL
@@ -197,7 +193,6 @@ names(rec_munic_2004)[26] <- "AMORT"
 names(rec_munic_2004)[27] <- "transf_cap"
 names(rec_munic_2004)[28] <- "rec_deduc"
 
-
 rec_munic_2004 <- mutate(rec_munic_2004, rec_prim = rec_total - rec_emprestimos - AMORT - VAL_MOB,
                          IPTU_total = IPTU_PRINC+(multas_e_juros_mora+rec_div_ativa)*(IPTU_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
                          ITBI_total = ITBI_PRINC+(multas_e_juros_mora+rec_div_ativa)*(ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
@@ -211,7 +206,6 @@ rec_munic_2004$test1 <- round(rec_munic_2004$test1, digits=4)
 rec_munic_2004$ano <- 2004
 
 #Nenhuma mudança na questão das deduções.
-
 
 #--  2005 ---
 rec_munic_2005[7:8] <- NULL
@@ -257,7 +251,6 @@ names(rec_munic_2005)[26] <- "AMORT"
 names(rec_munic_2005)[27] <- "transf_cap"
 names(rec_munic_2005)[28] <- "rec_deduc"
 
-
 rec_munic_2005 <- mutate(rec_munic_2005, rec_prim = rec_total - rec_emprestimos - AMORT - VAL_MOB,
                          IPTU_total = IPTU_PRINC+(multas_e_juros_mora+rec_div_ativa)*(IPTU_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
                          ITBI_total = ITBI_PRINC+(multas_e_juros_mora+rec_div_ativa)*(ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
@@ -271,7 +264,6 @@ rec_munic_2005$test1 <- round(rec_munic_2005$test1, digits=4)
 rec_munic_2005$ano <- 2005
 
 # Nenhuma mudança na questão das deduções.
-
 
 #--  2006 ---
 rec_munic_2006[7:8] <- NULL
@@ -316,7 +308,6 @@ names(rec_munic_2006)[25] <- "rec_emprestimos"
 names(rec_munic_2006)[26] <- "AMORT"
 names(rec_munic_2006)[27] <- "transf_cap"
 names(rec_munic_2006)[28] <- "rec_deduc"
-
 
 rec_munic_2006 <- mutate(rec_munic_2006, rec_prim = rec_total - rec_emprestimos - AMORT - VAL_MOB,
                          IPTU_total = IPTU_PRINC+(multas_e_juros_mora+rec_div_ativa)*(IPTU_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
@@ -736,7 +727,6 @@ rec_munic_2012$ano <- 2012
 
 
 ## ---  Logica para os anos de 2002 a 2006  ---  
-
 # Cria objeto dataframe para especificar a regra de 2002 a 2006
 data_frame_names <- c("rec_munic_2002",
                       "rec_munic_2003",
@@ -778,7 +768,6 @@ for (df_name in data_frame_names) {
   assign(df_name, df)
 }
 
-
 # -- -- -- -- -- -- -- -- -- -- --- --
 # Consolidacao de todas as informacoes
 
@@ -787,6 +776,7 @@ for (df_name in data_frame_names) {
 # A partir de 2009 as tabelas possuem 42 colunas porque as receitas com dividendos e participacoes sao adicionadas
 # alem disso, uma nova variavel de juros sobre valores mobiliarios foi criada.
 # -- -- -- -- -- -- -- -- -- -- --- --
+# Cria df 2002 - 2006
 data_frame_names <- c("rec_munic_2002",
                       "rec_munic_2003",
                       "rec_munic_2004",
@@ -827,7 +817,6 @@ for (df_name in data_frame_names) {
   # Retorna
   assign(df_name, df)
 }
-
 
 
 # Cria lista com todos as tabelas
