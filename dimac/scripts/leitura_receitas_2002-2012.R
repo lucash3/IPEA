@@ -1,138 +1,47 @@
+# Projeto  “Acompanhamento e Analise das Financas Publicas em Alta Frequencia
+
 library(tidyverse)
 library(readr)
 library(dplyr)
 library(readxl)
+library(openxlsx)
 
-setwd("C:/Users/USUARIO/Documents/Bases_brutas/Finbra/Finbra_receitas")
-
-rec_munic_2002 <-read_excel("finbra_rec_munic_2002.xlsx")
-rec_munic_2002$Cod_IBGE <- ifelse(nchar(rec_munic_2002$CD_MUN)==1,
-                                   paste(rec_munic_2002$CD_UF,"000",rec_munic_2002$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2002$CD_MUN)==2,
-                                          paste(rec_munic_2002$CD_UF,"00",rec_munic_2002$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2002$CD_MUN)==3,
-                                                 paste(rec_munic_2002$CD_UF,"0",rec_munic_2002$CD_MUN, sep=""),
-                                                 paste(rec_munic_2002$CD_UF,rec_munic_2002$CD_MUN, sep=""))))
-
-rec_munic_2002[1:2] <- NULL
-
-rec_munic_2003 <-read_excel("finbra_rec_munic_2003.xlsx")
-rec_munic_2003$Cod_IBGE <- ifelse(nchar(rec_munic_2003$CD_MUN)==1,
-                                   paste(rec_munic_2003$CD_UF,"000",rec_munic_2003$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2003$CD_MUN)==2,
-                                          paste(rec_munic_2003$CD_UF,"00",rec_munic_2003$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2003$CD_MUN)==3,
-                                                 paste(rec_munic_2003$CD_UF,"0",rec_munic_2003$CD_MUN, sep=""),
-                                                 paste(rec_munic_2003$CD_UF,rec_munic_2003$CD_MUN, sep=""))))
-rec_munic_2003[1:2] <- NULL
-
-rec_munic_2004 <-read_excel("finbra_rec_munic_2004.xlsx")
-rec_munic_2004$Cod_IBGE <- ifelse(nchar(rec_munic_2004$CD_MUN)==1,
-                                   paste(rec_munic_2004$CD_UF,"000",rec_munic_2004$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2004$CD_MUN)==2,
-                                          paste(rec_munic_2004$CD_UF,"00",rec_munic_2004$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2004$CD_MUN)==3,
-                                                 paste(rec_munic_2004$CD_UF,"0",rec_munic_2004$CD_MUN, sep=""),
-                                                 paste(rec_munic_2004$CD_UF,rec_munic_2004$CD_MUN, sep=""))))
-
-rec_munic_2004[1:2] <- NULL
-
-rec_munic_2005 <-read_excel("finbra_rec_munic_2005.xlsx")
-rec_munic_2005$Cod_IBGE <- ifelse(nchar(rec_munic_2005$CD_MUN)==1,
-                                   paste(rec_munic_2005$CD_UF,"000",rec_munic_2005$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2005$CD_MUN)==2,
-                                          paste(rec_munic_2005$CD_UF,"00",rec_munic_2005$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2005$CD_MUN)==3,
-                                                 paste(rec_munic_2005$CD_UF,"0",rec_munic_2005$CD_MUN, sep=""),
-                                                 paste(rec_munic_2005$CD_UF,rec_munic_2005$CD_MUN, sep=""))))
-
-rec_munic_2005[1:2] <- NULL
-
-rec_munic_2006 <-read_excel("finbra_rec_munic_2006.xlsx")
-
-rec_munic_2006$Cod_IBGE <- ifelse(nchar(rec_munic_2006$CD_MUN)==1,
-                                   paste(rec_munic_2006$CD_UF,"000",rec_munic_2006$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2006$CD_MUN)==2,
-                                          paste(rec_munic_2006$CD_UF,"00",rec_munic_2006$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2006$CD_MUN)==3,
-                                                 paste(rec_munic_2006$CD_UF,"0",rec_munic_2006$CD_MUN, sep=""),
-                                                 paste(rec_munic_2006$CD_UF,rec_munic_2006$CD_MUN, sep=""))))
-
-rec_munic_2006[1:2] <- NULL
+usuario <- Sys.getenv("USERNAME")
+  
+setwd(paste("C:/Users/",
+            usuario,
+            "/dimac/datasets", sep = ""))
 
 
-rec_munic_2007 <-read_excel("finbra_rec_munic_2007.xlsx")
-rec_munic_2007$Cod_IBGE <- ifelse(nchar(rec_munic_2007$CD_MUN)==1,
-                                   paste(rec_munic_2007$CD_UF,"000",rec_munic_2007$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2007$CD_MUN)==2,
-                                          paste(rec_munic_2007$CD_UF,"00",rec_munic_2007$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2007$CD_MUN)==3,
-                                                 paste(rec_munic_2007$CD_UF,"0",rec_munic_2007$CD_MUN, sep=""),
-                                                 paste(rec_munic_2007$CD_UF,rec_munic_2007$CD_MUN, sep=""))))
+# Vetor de anos considerados
+years <- 2002:2012
 
-rec_munic_2007[1:2] <- NULL
-
-rec_munic_2008 <-read_excel("finbra_rec_munic_2008.xlsx")
-rec_munic_2008$Cod_IBGE <- ifelse(nchar(rec_munic_2008$CD_MUN)==1,
-                                   paste(rec_munic_2008$CD_UF,"000",rec_munic_2008$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2008$CD_MUN)==2,
-                                          paste(rec_munic_2008$CD_UF,"00",rec_munic_2008$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2008$CD_MUN)==3,
-                                                 paste(rec_munic_2008$CD_UF,"0",rec_munic_2008$CD_MUN, sep=""),
-                                                 paste(rec_munic_2008$CD_UF,rec_munic_2008$CD_MUN, sep=""))))
-
-rec_munic_2008[1:2] <- NULL
-
-rec_munic_2009 <-read_excel("finbra_rec_munic_2009.xlsx")
-rec_munic_2009$Cod_IBGE <- ifelse(nchar(rec_munic_2009$CD_MUN)==1,
-                                   paste(rec_munic_2009$CD_UF,"000",rec_munic_2009$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2009$CD_MUN)==2,
-                                          paste(rec_munic_2009$CD_UF,"00",rec_munic_2009$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2009$CD_MUN)==3,
-                                                 paste(rec_munic_2009$CD_UF,"0",rec_munic_2009$CD_MUN, sep=""),
-                                                 paste(rec_munic_2009$CD_UF,rec_munic_2009$CD_MUN, sep=""))))
-
-rec_munic_2009[1:2] <- NULL
-
-rec_munic_2010 <-read_excel("finbra_rec_munic_2010.xlsx")
-rec_munic_2010$Cod_IBGE <- ifelse(nchar(rec_munic_2010$CD_MUN)==1,
-                                   paste(rec_munic_2010$CD_UF,"000",rec_munic_2010$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2010$CD_MUN)==2,
-                                          paste(rec_munic_2010$CD_UF,"00",rec_munic_2010$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2010$CD_MUN)==3,
-                                                 paste(rec_munic_2010$CD_UF,"0",rec_munic_2010$CD_MUN, sep=""),
-                                                 paste(rec_munic_2010$CD_UF,rec_munic_2010$CD_MUN, sep=""))))
-
-rec_munic_2010[1:2] <- NULL
-
-rec_munic_2011 <-read_excel("finbra_rec_munic_2011.xlsx")
-rec_munic_2011$Cod_IBGE <- ifelse(nchar(rec_munic_2011$CD_MUN)==1,
-                                   paste(rec_munic_2011$CD_UF,"000",rec_munic_2011$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2011$CD_MUN)==2,
-                                          paste(rec_munic_2011$CD_UF,"00",rec_munic_2011$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2011$CD_MUN)==3,
-                                                 paste(rec_munic_2011$CD_UF,"0",rec_munic_2011$CD_MUN, sep=""),
-                                                 paste(rec_munic_2011$CD_UF,rec_munic_2011$CD_MUN, sep=""))))
-
-rec_munic_2011[1:2] <- NULL
-
-rec_munic_2012 <-read_excel("finbra_rec_munic_2012.xlsx")
-
-rec_munic_2012$Cod_IBGE <- ifelse(nchar(rec_munic_2012$CD_MUN)==1,
-                                   paste(rec_munic_2012$CD_UF,"000",rec_munic_2012$CD_MUN, sep=""),
-                                   ifelse(nchar(rec_munic_2012$CD_MUN)==2,
-                                          paste(rec_munic_2012$CD_UF,"00",rec_munic_2012$CD_MUN, sep=""),
-                                          ifelse(nchar(rec_munic_2012$CD_MUN)==3,
-                                                 paste(rec_munic_2012$CD_UF,"0",rec_munic_2012$CD_MUN, sep=""),
-                                                 paste(rec_munic_2012$CD_UF,rec_munic_2012$CD_MUN, sep=""))))
-
-rec_munic_2012[1:2] <- NULL
+# Iterando sobre o vetor de anos
+for (year in years) {
+  # leitura de cada arquivo
+  file_path <- paste0("finbra_rec_munic_", year, ".xlsx")
+  rec_munic <- read_excel(file_path)
+  
+  # Cria a coluna Cod_IBGE 
+  rec_munic$Cod_IBGE <- ifelse(nchar(rec_munic$CD_MUN) == 1,
+                               paste(rec_munic$CD_UF, "000", rec_munic$CD_MUN, sep = ""),
+                               ifelse(nchar(rec_munic$CD_MUN) == 2,
+                                      paste(rec_munic$CD_UF, "00", rec_munic$CD_MUN, sep = ""),
+                                      ifelse(nchar(rec_munic$CD_MUN) == 3,
+                                             paste(rec_munic$CD_UF, "0", rec_munic$CD_MUN, sep = ""),
+                                             paste(rec_munic$CD_UF, rec_munic$CD_MUN, sep = ""))))
+  
+  # Remove colunas 1 e 2
+  rec_munic <- rec_munic[, -c(1, 2)]
+  
+  # Atribui o data frame a uma variável separada com base no ano
+  assign(paste0("rec_munic_", year), rec_munic)
+}
 
 
-#=============Dados anuais ==================================================
+## Harmonizacao dos dados anuais
 
-#2002
-
+#--  2002 ---
 rec_munic_2002[13:16] <- NULL
 rec_munic_2002[14:16] <- NULL
 rec_munic_2002[15:19] <- NULL
@@ -173,26 +82,25 @@ names(rec_munic_2002)[28] <- "rec_deduc"
 
 
 rec_munic_2002 <- mutate(rec_munic_2002, rec_prim = rec_total - rec_emprestimos - AMORT - VAL_MOB,
-         IPTU_total = IPTU_PRINC+(multas_e_juros_mora+rec_div_ativa)*(IPTU_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
-         ITBI_total = ITBI_PRINC+(multas_e_juros_mora+rec_div_ativa)*(ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
-         ISSQN_total = ISSQN_PRINC+(multas_e_juros_mora+rec_div_ativa)*(ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
-         rec_proprias1 = ITBI_total+ISSQN_total+IPTU_total, 
-         rec_proprias2 = rec_total+rec_deduc - transf_corr - transf_cap,
-         test1 = rec_total-rec_corr-rec_capital+rec_deduc)
+                         IPTU_total = IPTU_PRINC + (multas_e_juros_mora+rec_div_ativa) * (IPTU_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
+                         ITBI_total = ITBI_PRINC + (multas_e_juros_mora+rec_div_ativa) * (ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
+                         ISSQN_total = ISSQN_PRINC+(multas_e_juros_mora+rec_div_ativa) * (ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
+                         rec_proprias1 = ITBI_total + ISSQN_total + IPTU_total, 
+                         rec_proprias2 = rec_total + rec_deduc - transf_corr - transf_cap,
+                         test1 = rec_total - rec_corr - rec_capital + rec_deduc)
 
-#A variÃ¡vel teste1 ser zero significa que a variÃ¡vel rec_total (mas nÃ£o as variÃ¡veis rec corrente e rec capital)
-#Ã© (sÃ£o) lÃ­quida(s) de deduÃ§Ãµes. Por isso as deduÃ§Ãµes nÃ£o entram no cÃ¡lculo das receitas primÃ¡rias.
-#Mas importa notar que todas as variÃ¡veis de receita exclusive receitas totais sÃ£o BRUTAS de deduÃ§Ãµes.
-# As Ãºnicas variÃ¡veis que podem ser calculadas  lÃ­quida de deduÃ§Ãµes sÃ£o as receitas correntes, ICMS e FPM
-#porque hÃ¡ variÃ¡veis de deduÃ§Ã£o desta receitas.
+# A variavel teste1 ser zero significa que a variavel 'rec_total' (mas nao as variaveis 'rec_corrente' e 'rec_capital')
+# sao liquidas de deducoes. Por isso as deducoes nao entram no calculo das receitas primarias.
+# Mas importa notar que todas as variaveis de receita exclusive receitas totais são BRUTAS de deducoes.
+# As unicas variaveis que podem ser calculadas liquida de deducoes sao as receitas correntes, ICMS e FPM
+# porque existem variaveis de deducao destas receitas.
 
 rec_munic_2002$test1 <- as.numeric(format(rec_munic_2002$test1, scientific = F))
 rec_munic_2002$test1 <- round(rec_munic_2002$test1, digits=4)
 rec_munic_2002$ano <- 2002
 
 
-#2003
-
+#--  2003 ---
 rec_munic_2003[13:16] <- NULL
 rec_munic_2003[14:16] <- NULL
 rec_munic_2003[15:19] <- NULL
@@ -233,20 +141,20 @@ names(rec_munic_2003)[28] <- "rec_deduc"
 
 
 rec_munic_2003 <- mutate(rec_munic_2003, rec_prim = rec_total - rec_emprestimos - AMORT - VAL_MOB,
-                         IPTU_total = IPTU_PRINC+(multas_e_juros_mora+rec_div_ativa)*(IPTU_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
-                         ITBI_total = ITBI_PRINC+(multas_e_juros_mora+rec_div_ativa)*(ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
-                         ISSQN_total = ISSQN_PRINC+(multas_e_juros_mora+rec_div_ativa)*(ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
-                         rec_proprias1 = ITBI_total+ISSQN_total+IPTU_total, 
-                         rec_proprias2 = rec_total+rec_deduc - transf_corr - transf_cap,
-                         test1 = rec_total-rec_corr-rec_capital+rec_deduc)
+                         IPTU_total = IPTU_PRINC + (multas_e_juros_mora+rec_div_ativa) * (IPTU_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
+                         ITBI_total = ITBI_PRINC + (multas_e_juros_mora+rec_div_ativa) * (ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
+                         ISSQN_total = ISSQN_PRINC + (multas_e_juros_mora+rec_div_ativa) * (ITBI_PRINC/(IPTU_PRINC+ITBI_PRINC+ISSQN_PRINC)),
+                         rec_proprias1 = ITBI_total + ISSQN_total+IPTU_total, 
+                         rec_proprias2 = rec_total + rec_deduc - transf_corr - transf_cap,
+                         test1 = rec_total-rec_corr - rec_capital + rec_deduc)
 
 rec_munic_2003$test1 <- as.numeric(format(rec_munic_2003$test1, scientific = F))
 rec_munic_2003$test1 <- round(rec_munic_2003$test1, digits=4)
 rec_munic_2003$ano <- 2003
 
-#Nenhuma mudanÃ§a na questÃ£o das deduÃ§Ãµes de receita.
 
-#2004
+
+#--  2004 ---
 rec_munic_2004[7:8] <- NULL
 rec_munic_2004[8] <- NULL
 rec_munic_2004[10] <- NULL
@@ -302,10 +210,10 @@ rec_munic_2004$test1 <- as.numeric(format(rec_munic_2004$test1, scientific = F))
 rec_munic_2004$test1 <- round(rec_munic_2004$test1, digits=4)
 rec_munic_2004$ano <- 2004
 
-#Nenhuma mudanÃ§a na questÃ£o das deduÃ§Ãµes.
+#Nenhuma mudança na questão das deduções.
 
-#2005
 
+#--  2005 ---
 rec_munic_2005[7:8] <- NULL
 rec_munic_2005[8] <- NULL
 rec_munic_2005[10] <- NULL
@@ -362,10 +270,10 @@ rec_munic_2005$test1 <- as.numeric(format(rec_munic_2005$test1, scientific = F))
 rec_munic_2005$test1 <- round(rec_munic_2005$test1, digits=4)
 rec_munic_2005$ano <- 2005
 
-# Nenhuma mudanÃ§a na questÃ£o das deduÃ§Ãµes.
+# Nenhuma mudança na questão das deduções.
 
-#2006
 
+#--  2006 ---
 rec_munic_2006[7:8] <- NULL
 rec_munic_2006[8] <- NULL
 rec_munic_2006[10] <- NULL
@@ -422,9 +330,11 @@ rec_munic_2006$test1 <- as.numeric(format(rec_munic_2006$test1, scientific = F))
 rec_munic_2006$test1 <- round(rec_munic_2006$test1, digits=4)
 rec_munic_2006$ano <- 2006
 
-#Nenhuma mudanÃ§a  na questÃ£o das deduÃ§Ãµes
+#Nenhuma mudança  na questão das deduções
 
-#2007 (as contas passam a possibilitar excluir as receitas intraorÃ§amentÃ¡rias )
+
+#--  2007 ---
+# Observacao (as contas passam a possibilitar excluir as receitas intraorcamentarias)
 
 rec_munic_2007[7:8] <- NULL
 rec_munic_2007[9:10] <- NULL
@@ -484,16 +394,16 @@ rec_munic_2007$test1 <- as.numeric(format(rec_munic_2007$test1, scientific = F))
 rec_munic_2007$test1 <- round(rec_munic_2007$test1, digits=4)
 rec_munic_2007$ano <- 2007
 
-# A partir de 2007 as receitas intraorÃ§amentÃ¡rias de capital e corrente passam a ser explicitadas.
-# A Ãºnica possibilidade de cÃ¡lculo de receitas lÃ­quidas de deduÃ§Ãµes Ã© a da receita corrente. 
-# As Ãºnicas possibilidades de cÃ¡lculo de receitas lÃ­quidas de intraorÃ§amentÃ¡rias sÃ£o receitas correntes 
-# lÃ­quidas de intraorÃ§amentÃ¡rias e receitas de capital lÃ­quidas de intraorÃ§amentÃ¡rias.
-# AlÃ©m das receitas lÃ­quidas de deduÃ§Ãµes antes disponÃ­veis (rec_corr, FMP, ICMS), a partir de 2007 
-# hÃ¡ tambÃ©m a possibilidade de calcular nÃºmeros para o IPVA, para as transf_corr_uniao e 
+# A partir de 2007 as receitas intraorcamentarias de capital e corrente passam a ser explicitadas.
+# A unica possibilidade de calculo de receitas liquidas de deducoes a a da receita corrente. 
+# As unicas possibilidades de calculo de receitas liquidas de intraorcamentarias sao receitas correntes 
+# liquidas de intraorcamentarias e receitas de capital liquidas de intraorcamentarias.
+# Alem das receitas liquidas de deducoes antes disponiveis (rec_corr, FMP, ICMS), a partir de 2007 
+# existe tambem a possibilidade de calcular numeros para o IPVA, para as transf_corr_uniao e 
 # transf_corr_estados.
 
-#2008
 
+#--  2008 ---
 rec_munic_2008[7:8] <- NULL
 rec_munic_2008[9:10] <- NULL
 rec_munic_2008[10] <- NULL
@@ -553,13 +463,14 @@ rec_munic_2008$test1 <- round(rec_munic_2008$test1, digits=4)
 rec_munic_2008$ano <- 2008
 
 
-# Nenhuma mudanÃ§a na questÃ£o das deduÃ§Ãµes de receitas em relaÃ§Ã£o a 2007.
+# Nenhuma mudança na questão das deduções de receitas em relação a 2007.
 
+#--  2009 ---
 
-# Em 2009 (os dados permitem separar receita da dÃ­vida ativa tributÃ¡ria da dÃ­vida ativa total. 
-# Permitem ainda separar dividendos e participaÃ§Ãµes do total das receitas mobiliÃ¡rias. 
-# HÃ¡ tambÃ©m uma pequena mudanÃ§a em relaÃ§Ã£o a deduÃ§Ãµes das receitas correntes
-# que passaram a ser contabilizadas - como "outras deduÃ§Ãµes" - mesmo que nao relacionadas ao FUNDEB.
+# Em 2009 (os dados permitem separar receita da divida ativa tributaria da divida ativa total. 
+# Permitem ainda separar dividendos e participacoes do total das receitas mobiliarias. 
+# Existe tambem uma pequena mudanca em relacao as deducoes das receitas correntes
+# que passaram a ser contabilizadas - como "outras deducoes" - mesmo que nao relacionadas ao FUNDEB.
 
 rec_munic_2009[7:8] <- NULL
 rec_munic_2009[9:10] <- NULL
@@ -624,8 +535,8 @@ rec_munic_2009$test1 <- round(rec_munic_2009$test1, digits=4)
 rec_munic_2009$ano <- 2009
 
 
-#2010 (nenhuma mudanÃ§a em relaÃ§Ã£o Ã s deduÃ§Ãµes de receitas)
-
+#--  2010 --- 
+# (nenhuma mudança em relação às deduções de receitas)
 rec_munic_2010[7:8] <- NULL
 rec_munic_2010[9:10] <- NULL
 rec_munic_2010[10] <- NULL
@@ -690,8 +601,7 @@ rec_munic_2010$test1 <- round(rec_munic_2010$test1, digits=4)
 rec_munic_2010$ano <- 2010
 
 
-#2011
-
+#--  2011 ---
 rec_munic_2011[7:8] <- NULL
 rec_munic_2011[9:10] <- NULL
 rec_munic_2011[10] <- NULL
@@ -756,10 +666,8 @@ rec_munic_2011$test1 <- round(rec_munic_2011$test1, digits=4)
 rec_munic_2011$ano <- 2011
 
 
-
-
-#2012 - Nenhuma mudanÃ§a na questÃ£o das deduÃ§Ãµes de receitas
-
+#--  2012 --- 
+# Nenhuma mudança na questão das deduções de receitas
 rec_munic_2012[7:8] <- NULL
 rec_munic_2012[9:10] <- NULL
 rec_munic_2012[10] <- NULL
@@ -823,84 +731,119 @@ rec_munic_2012$test1 <- as.numeric(format(rec_munic_2012$test1, scientific = F))
 rec_munic_2012$test1 <- round(rec_munic_2012$test1, digits=4)
 rec_munic_2012$ano <- 2012
 
-#Ajustamento das receitas totais para brutas de deduÃ§Ãµes e lÃ­quidas de receitas intra-orÃ§amentÃ¡rias
 
-rec_munic_2002 <- mutate(rec_munic_2002, rec_bruta_total = rec_total+rec_deduc)
-rec_munic_2003 <- mutate(rec_munic_2003, rec_bruta_total = rec_total+rec_deduc)
-rec_munic_2004 <- mutate(rec_munic_2004, rec_bruta_total = rec_total+rec_deduc)
-rec_munic_2005 <- mutate(rec_munic_2005, rec_bruta_total = rec_total+rec_deduc)
-rec_munic_2006 <- mutate(rec_munic_2006, rec_bruta_total = rec_total+rec_deduc)
-rec_munic_2007 <- mutate(rec_munic_2007, rec_bruta_total = rec_total+rec_deduc - rec_corr_intra - rec_cap_intra)
-rec_munic_2008 <- mutate(rec_munic_2008, rec_bruta_total = rec_total+rec_deduc - rec_corr_intra - rec_cap_intra)
-rec_munic_2009 <- mutate(rec_munic_2009, rec_bruta_total = rec_total+rec_deduc - rec_corr_intra - rec_cap_intra)
-rec_munic_2010 <- mutate(rec_munic_2010, rec_bruta_total = rec_total+rec_deduc - rec_corr_intra - rec_cap_intra)
-rec_munic_2011 <- mutate(rec_munic_2011, rec_bruta_total = rec_total+rec_deduc - rec_corr_intra - rec_cap_intra)
-rec_munic_2012 <- mutate(rec_munic_2012, rec_bruta_total = rec_total+rec_deduc - rec_corr_intra - rec_cap_intra)
+#Ajustamento das receitas totais para brutas de deducoes e liquidas de receitas intra-orcamentarias
+
+
+## ---  Logica para os anos de 2002 a 2006  ---  
+
+# Cria objeto dataframe para especificar a regra de 2002 a 2006
+data_frame_names <- c("rec_munic_2002",
+                      "rec_munic_2003",
+                      "rec_munic_2004",
+                      "rec_munic_2005",
+                      "rec_munic_2006")
+
+# Itera sobre o dataframe
+for (df_name in data_frame_names) {
+  # Captura o objeto
+  df <- get(df_name)
   
-
-# JUntando tudo em um painel
-
-#AtÃ© 2006 os dados brutos anuais tÃªm 37 colunas. Em 2007 atÃ© 2008 eles tÃªm 39 colunas porque as receitas de capital e 
-#correntes intraorÃ§amentÃ¡rias sÃ£o adicionadas. A partir de 2009 eles tÃªm 42 colunas porque as receitas com dividendos
-# e participaÃ§Ãµes sÃ£o adicionadas e uma nova variÃ¡vel de juros sobre valores mobiliÃ¡rios foi criada.
-
-rec_munic_2002$rec_corr_intra <- 0 
-rec_munic_2002$rec_cap_intra <- 0
-rec_munic_2002$DIVIDENDOS <- 0 
-rec_munic_2002$PARTICIPS <- 0 
-rec_munic_2002$VAL_MOB_liq <- rec_munic_2002$VAL_MOB
-
-rec_munic_2003$rec_corr_intra <- 0 
-rec_munic_2003$rec_cap_intra <- 0
-rec_munic_2003$DIVIDENDOS <- 0 
-rec_munic_2003$PARTICIPS <- 0 
-rec_munic_2003$VAL_MOB_liq <- rec_munic_2003$VAL_MOB
-
-rec_munic_2004$rec_corr_intra <- 0 
-rec_munic_2004$rec_cap_intra <- 0
-rec_munic_2004$DIVIDENDOS <- 0 
-rec_munic_2004$PARTICIPS <- 0 
-rec_munic_2004$VAL_MOB_liq <- rec_munic_2004$VAL_MOB
-
-rec_munic_2005$rec_corr_intra <- 0 
-rec_munic_2005$rec_cap_intra <- 0
-rec_munic_2005$DIVIDENDOS <- 0 
-rec_munic_2005$PARTICIPS <- 0 
-rec_munic_2005$VAL_MOB_liq <- rec_munic_2005$VAL_MOB
-
-rec_munic_2006$rec_corr_intra <- 0 
-rec_munic_2006$rec_cap_intra <- 0
-rec_munic_2006$DIVIDENDOS <- 0 
-rec_munic_2006$PARTICIPS <- 0 
-rec_munic_2006$VAL_MOB_liq <- rec_munic_2006$VAL_MOB
-
-rec_munic_2007$DIVIDENDOS <- 0 
-rec_munic_2007$PARTICIPS <- 0 
-rec_munic_2007$VAL_MOB_liq <- rec_munic_2007$VAL_MOB
-
-rec_munic_2008$DIVIDENDOS <- 0 
-rec_munic_2008$PARTICIPS <- 0 
-rec_munic_2008$VAL_MOB_liq <- rec_munic_2008$VAL_MOB
-
-painel_finbra_rec_munics_2002_2012 <- rbind(rec_munic_2002, rec_munic_2003)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2004)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2005)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2006)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2007)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2008)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2009)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2010)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2011)
-painel_finbra_rec_munics_2002_2012 <- rbind(painel_finbra_rec_munics_2002_2012, rec_munic_2012)
-
-str(painel_finbra_rec_munics_2002_2012)
+  # Realizao a operacao
+  df <- mutate(df, rec_bruta_total = rec_total + rec_deduc)
+  
+  # Retorna o data frame modificado
+  assign(df_name, df)
+}
 
 
+## ---  Logica para os anos de 2002 a 2006  ---  
+# Cria objeto dataframe para especificar a regra de 2007 a 2012
+data_frame_names <- c("rec_munic_2007",
+                      "rec_munic_2008",
+                      "rec_munic_2009",
+                      "rec_munic_2010",
+                      "rec_munic_2011",
+                      "rec_munic_2012")
 
-write.csv2(painel_finbra_rec_munics_2002_2012, "C:/Users/USUARIO/Documents/TD_munics/rec_finbra_2002_2012_mai2023.csv")
+# Itera sobre o dataframe
+for (df_name in data_frame_names) {
+  # Captura o objeto
+  df <- get(df_name)
+  
+  # Realizao a operacao
+  df <- mutate(df, rec_bruta_total = rec_total + rec_deduc - rec_corr_intra - rec_cap_intra)
+  
+  # Retorna o data frame modificado
+  assign(df_name, df)
+}
+
+
+# -- -- -- -- -- -- -- -- -- -- --- --
+# Consolidacao de todas as informacoes
+
+# Ate 2006 os dados brutos anuais possuem 37 colunas. 
+# De 2007 a 2008 eles possuem 39 colunas porque as receitas de capital e correntes intraorcamentarias sao adicionadas.
+# A partir de 2009 as tabelas possuem 42 colunas porque as receitas com dividendos e participacoes sao adicionadas
+# alem disso, uma nova variavel de juros sobre valores mobiliarios foi criada.
+# -- -- -- -- -- -- -- -- -- -- --- --
+data_frame_names <- c("rec_munic_2002",
+                      "rec_munic_2003",
+                      "rec_munic_2004",
+                      "rec_munic_2005",
+                      "rec_munic_2006")
+
+# Itera sobre o df 2002 - 2006
+for (df_name in data_frame_names) {
+  # Captura objeto
+  df <- get(df_name)
+  
+  # Atribui valores as variaveis
+  df$rec_corr_intra <- 0 
+  df$rec_cap_intra <- 0
+  df$DIVIDENDOS <- 0 
+  df$PARTICIPS <- 0 
+  df$VAL_MOB_liq <- df$VAL_MOB
+  
+  # Retorna
+  assign(df_name, df)
+}
+
+
+# Cria df 2007 - 2008
+data_frame_names <- c("rec_munic_2007",
+                      "rec_munic_2008")
+
+# Itera
+for (df_name in data_frame_names) {
+  # Captura
+  df <- get(df_name)
+  
+  # Atribui
+  df$DIVIDENDOS <- 0 
+  df$PARTICIPS <- 0 
+  df$VAL_MOB_liq <- df$VAL_MOB
+  
+  # Retorna
+  assign(df_name, df)
+}
 
 
 
+# Cria lista com todos as tabelas
+data_frames <- list(rec_munic_2002, rec_munic_2003, rec_munic_2004, rec_munic_2005,
+                    rec_munic_2006, rec_munic_2007, rec_munic_2008, rec_munic_2009,
+                    rec_munic_2010, rec_munic_2011, rec_munic_2012)
+
+# Combine the data frames using rbind and do.call
+painel_finbra_rec_munics_2002_2012 <- do.call(rbind, data_frames)
 
 
+## Outputs / Dados de saida
+
+## Formato csv
+write.csv2(painel_finbra_rec_munics_2002_2012, file = "rec_finbra_2002_2012_mai2023.csv")
+
+## Formato xlsx
+write.xlsx(painel_finbra_rec_munics_2002_2012, file = "rec_finbra_2002_2012_mai2023.xlsx")
 
